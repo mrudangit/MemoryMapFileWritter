@@ -17,11 +17,15 @@ public class MarketDataStore {
 
     @Value("${numOfRecords}")
     public int numOfRecords;
+
+    @Value("${updatePercent}")
+    public int updatePercent;
     private ArrayList<MarketData> listOfMarketData= new ArrayList<>();
 
 
     @PostConstruct
     protected void Init(){
+
         for(int i=0;i < this.numOfRecords; i++){
 
             MarketData md = MarketData.createInstance(i);
@@ -36,6 +40,8 @@ public class MarketDataStore {
     }
 
     public MarketData updateRandomMarketData(){
+
+
 
         int mdIndex = random.nextInt(listOfMarketData.size());
 

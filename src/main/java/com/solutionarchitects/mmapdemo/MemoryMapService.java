@@ -35,6 +35,9 @@ public class MemoryMapService {
     @Value("${updateInterval}")
     protected int updateInterval;
 
+    @Value("${updatePercent}")
+    public int updatePercent;
+
 
     private MappedByteBuffer mappedByteBuffer;
 
@@ -50,6 +53,7 @@ public class MemoryMapService {
     protected void Init() throws IOException {
 
         int lengthOfFile = numOfRecords * MarketData.SIZE;
+        int updateCount = (int) Math.floor((numOfRecords/updatePercent));
 
         logger.info("Memory Map File Size : {} ", lengthOfFile);
 
@@ -65,7 +69,7 @@ public class MemoryMapService {
         logger.info("Memory Map File Size : {}", mappedByteBuffer.limit());
 
         populateMMAPFile();
-        startUpdating();
+        startUpdating(updateCount);
 
 
 
@@ -88,11 +92,14 @@ public class MemoryMapService {
         mappedByteBuffer.put(bytes,0, bytes.length);
     }
 
-    private void startUpdating() {
+    private void startUpdating(int updateCount) {
         Flux.interval(Duration.ofMillis(updateInterval)).subscribe(aLong -> {
-            MarketData m = this.marketDataStore.updateRandomMarketData();
-            writeToMMAPFile(m);
-            logger.info("Update MD : {}", m.toString() );
+
+            for(int i=0;i < updateCount; i++) {
+                MarketData m = this.marketDataStore.updateRandomMarketData();
+                writeToMMAPFile(m);
+            }
+
 
         });
     }
