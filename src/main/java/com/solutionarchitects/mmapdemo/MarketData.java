@@ -11,7 +11,7 @@ public class MarketData {
     private static long counter=0;
     private static Random random = new Random();
 
-    public static final int SIZE = 216;
+    public static final int SIZE = 224;
     public final int index;
 
     public String symbol;   // 40
@@ -42,6 +42,7 @@ public class MarketData {
     public long bidSize2;
     public long bidSize3;
     public long bidSize4;
+    public long revisionId;
 
 
 
@@ -114,6 +115,7 @@ public class MarketData {
         buffer.putLong(this.bidSize2);
         buffer.putLong(this.bidSize3);
         buffer.putLong(this.bidSize4);
+        buffer.putLong(this.revisionId);
 
         return buffer.array();
 
@@ -152,6 +154,7 @@ public class MarketData {
         m.bidSize2 = (long) (100*random.nextDouble());
         m.bidSize3 = (long) (100*random.nextDouble());
         m.bidSize4 = (long) (100*random.nextDouble());
+        m.revisionId = 0;
 
 
 
@@ -186,6 +189,8 @@ public class MarketData {
         m.bidSize2 = (long) (100*random.nextDouble());
         m.bidSize3 = (long) (100*random.nextDouble());
         m.bidSize4 = (long) (100*random.nextDouble());
+
+        m.revisionId++;
 
     }
 

@@ -36,7 +36,7 @@ public class MemoryMapService {
     protected int updateInterval;
 
     @Value("${updatePercent}")
-    public int updatePercent;
+    public double updatePercent;
 
 
     private MappedByteBuffer mappedByteBuffer;
@@ -53,7 +53,7 @@ public class MemoryMapService {
     protected void Init() throws IOException {
 
         int lengthOfFile = numOfRecords * MarketData.SIZE;
-        int updateCount = (int) Math.floor((numOfRecords/updatePercent));
+        int updateCount = (int) Math.floor((numOfRecords*(updatePercent/100.00)));
 
         logger.info("Memory Map File Size : {} ", lengthOfFile);
 
