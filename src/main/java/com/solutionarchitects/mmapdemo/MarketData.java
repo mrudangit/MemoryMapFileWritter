@@ -11,7 +11,7 @@ public class MarketData {
     private static long counter=0;
     private static Random random = new Random();
 
-    public static final int SIZE = 224;
+    public static final int SIZE = 232;
     public final int index;
 
     public String symbol;   // 40
@@ -44,6 +44,8 @@ public class MarketData {
     public long bidSize4;
     public long revisionId;
 
+    public double spread;
+
 
 
     public MarketData(int index){
@@ -57,6 +59,7 @@ public class MarketData {
                 "symbol='" + symbol + '\'' +
                 ", symbolId=" + symbolId +
                 ", mid=" + mid +
+                ", spread=" + spread +
                 ", askPrice0=" + askPrice0 +
                 ", askPrice1=" + askPrice1 +
                 ", askPrice2=" + askPrice2 +
@@ -116,6 +119,7 @@ public class MarketData {
         buffer.putLong(this.bidSize3);
         buffer.putLong(this.bidSize4);
         buffer.putLong(this.revisionId);
+        buffer.putDouble(this.spread);
 
         return buffer.array();
 
@@ -156,6 +160,7 @@ public class MarketData {
         m.bidSize4 = (long) (100*random.nextDouble());
         m.revisionId = 0;
 
+        m.spread = 100*random.nextDouble();
 
 
         return m;
@@ -164,7 +169,6 @@ public class MarketData {
 
     public void generateMarketData(){
         MarketData m = this;
-        m.mid      = 100*random.nextDouble();
 
         m.askPrice0 = 100*random.nextDouble();
         m.askPrice1 = 100*random.nextDouble();
@@ -191,6 +195,9 @@ public class MarketData {
         m.bidSize4 = (long) (100*random.nextDouble());
 
         m.revisionId++;
+        m.mid      = ((bidPrice0 + askPrice0) / 2);
+
+        m.spread = askPrice0 - bidPrice0;
 
     }
 

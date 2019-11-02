@@ -97,6 +97,7 @@ public class MemoryMapService {
 
             for(int i=0;i < updateCount; i++) {
                 MarketData m = this.marketDataStore.updateRandomMarketData();
+                // logger.info("Market Data : {}", m.toString());
                 writeToMMAPFile(m);
             }
 
